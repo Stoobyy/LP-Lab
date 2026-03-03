@@ -1,5 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+
+void printOperand(char c) {
+    if(isdigit(c)) printf("t%c", c);
+    else printf("%c", c);
+}
+
 int main() {
     char exp[100];
     printf("Enter expression:\n");
@@ -10,7 +17,11 @@ int main() {
     // Process *, /
     for(i = 0; exp[i] != '\0'; i++) {
         if(exp[i] == '*' || exp[i] == '/') {
-            printf("t%d = %c %c %c\n", temp, exp[i-1], exp[i], exp[i+1]);
+            printf("t%d = ", temp); 
+            printOperand(exp[i-1]); 
+            printf(" %c ", exp[i]); 
+            printOperand(exp[i+1]); 
+            printf("\n");
             exp[i+1] = '0' + temp;
             temp++;
         }
@@ -18,7 +29,11 @@ int main() {
     // Process +, -
     for(i = 0; exp[i] != '\0'; i++) {
         if(exp[i] == '+' || exp[i] == '-') {
-            printf("t%d = %c %c %c\n", temp, exp[i-1], exp[i], exp[i+1]);
+            printf("t%d = ", temp); 
+            printOperand(exp[i-1]); 
+            printf(" %c ", exp[i]); 
+            printOperand(exp[i+1]); 
+            printf("\n");
             exp[i+1] = '0' + temp;
             temp++;
         }
