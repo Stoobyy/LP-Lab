@@ -24,7 +24,7 @@ int main()
     else
     {
         /* Case 2: expression a=b+c */
-        sscanf(tac, "%[^=]=%[^+-*/]%c%s", result, op1, &operator, op2);
+        sscanf(tac, "%[^=]=%[^+-*/]%c%s", result, op1, &operator, op2); //&operator important
 
         printf("\nGenerated Code:\n");
 
