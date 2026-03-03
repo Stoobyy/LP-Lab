@@ -13,47 +13,54 @@ The program reads arithmetic expressions and converts them into **Three Address 
 2. **Second pass** — scan for `+` and `-` (lower precedence), generate temp variables
 3. **Final assignment** — assign the last temp to the result variable
 
-### Example Breakdown
+## Versions
 
-For `a=a+b*c`:
+### `program.c` — Simple Expressions
+Works correctly for expressions with one level of operator precedence (e.g., `a=b+c*d`). May produce incorrect chaining for complex expressions with multiple operators at the same precedence level.
 
-| Step | Operation | TAC |
-|------|-----------|-----|
-| 1 | `b * c` | `t1 = b * c` |
-| 2 | `a + t1` | `t2 = a + t1` |
-| 3 | Assign | `a = t2` |
+### `fixed/program.c` — Complex Expressions
+Uses a **token-based approach** to correctly handle complex expressions with multiple operators (e.g., `a=b*c+d*e-f`). Operands and operators are stored in arrays, and results are properly propagated after each operation.
 
 ## How to Compile & Run
 
 ```bash
-gcc program.c -o program
-./program
+gcc program.c -o a.exe
+./a.exe
 ```
 
-> **Note:** Type expressions and press Enter. Press `Ctrl+Z` (Windows) or `Ctrl+D` (Linux) to stop.
-
-## Sample Input
-
-```
-a=a+b*c
-x=a-b/c+d
+For the fixed version:
+```bash
+cd fixed
+gcc program.c -o a.exe
+./a.exe
 ```
 
 ## Sample Output
 
-```
-Enter expressions (Ctrl+D to stop):
+### Simple (`program.c`)
 
-Input: a=a+b*c
+```
+Enter expression:
+a=b+c*d
+
+Input: a=b+c*d
+Three Address Code:
+t1 = c * d
+t2 = b + t1
+a = t2
+```
+
+### Fixed (`fixed/program.c`)
+
+```
+Enter expression:
+a=b*c+d*e-f
+
+Input: a=b*c+d*e-f
 Three Address Code:
 t1 = b * c
-t2 = a + 1
-a = t2
-
-Input: x=a-b/c+d
-Three Address Code:
-t1 = b / c
-t2 = a - 1
-t3 = 1 + d
-x = t3
+t2 = d * e
+t3 = t1 + t2
+t4 = t3 - f
+a = t4
 ```
