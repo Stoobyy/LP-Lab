@@ -3,7 +3,7 @@
 FILE *yyin;
 %}
 %%
-[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}    { printf("%s\n",yytext); }
+[a-zA-Z0-9._]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,}    { printf("%s\n",yytext); }
 .|\n                                                 ;
 %%
 int main()
