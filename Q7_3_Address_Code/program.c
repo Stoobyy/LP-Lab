@@ -22,7 +22,7 @@ int main() {
             printf(" %c ", exp[i]); 
             printOperand(exp[i+1]); 
             printf("\n");
-            exp[i-1] = '0' + temp;
+            exp[i-1] = '0' + temp; // convert number to string 
             exp[i+1] = '0' + temp;
             temp++;
         }
