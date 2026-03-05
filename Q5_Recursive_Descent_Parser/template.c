@@ -100,7 +100,7 @@ void T1() {
 
 // F → ( E ) | id
 //   Using 'a'-'z' as identifiers for simplicity
-void F() {
+void F() { //IMPOTRTNATN
     if (input[i] == '(') {
         forward('(');
         E();

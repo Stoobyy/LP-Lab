@@ -9,10 +9,6 @@ void yyerror(const char *s);
 %left '*' '/'
 %%
 input:
-    input line
-    |
-    ;
-line:
     expr '\n'   { printf("Result = %d\n", $1); }
     ;
 expr:
