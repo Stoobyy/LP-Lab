@@ -100,7 +100,7 @@ void T1() {
 
 // F → ( E ) | id
 //   Using 'a'-'z' as identifiers for simplicity
-void F() { //IMPOTRTNATN
+void F() {
     if (input[i] == '(') {
         forward('(');
         E();
@@ -108,6 +108,10 @@ void F() { //IMPOTRTNATN
     }
     else if (input[i] >= 'a' && input[i] <= 'z') {
         forward(input[i]);   // match any lowercase letter as 'id'
+
+        //IMPORTANT
+        //forward('i');
+        //forward('d');  // If you want to match the literal "id", use these two lines instead
     }
     else {
         error();
