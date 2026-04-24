@@ -141,6 +141,26 @@ for each symbol → fprintf(fsym, ...)
 
 ---
 
+## Code Notes
+
+### `%04X` — address formatting
+All addresses are printed with `fprintf(finter, "%04X", locctr)`.  
+- `X` → uppercase hex  
+- `4` → minimum 4 digits wide  
+- `0` → pad with leading zeros instead of spaces  
+
+So `0x5` prints as `0005`, and `0xFF` prints as `00FF`.
+
+### `BYTE` length calculation
+```c
+len = (operand[0] == 'C') ? strlen(operand) - 3 : 1;
+```
+`BYTE` has two forms:
+- `C'HELLO'` — character constant: each character is 1 byte, so length = number of chars inside the quotes. `strlen` counts the whole string (e.g. `"C'EOF'"` = 6), minus 3 for the `C`, `'`, and closing `'` → **3 bytes**.
+- `X'1F'` — hex constant: always **1 byte**, regardless of how many hex digits.
+
+---
+
 ## Console Output
 
 ```
