@@ -26,7 +26,7 @@ int main() {
     printf("Enter TAC:\n");
 
     for (int i = 0; i < n; i++) {
-        fgets(line, sizeof(line), stdin);
+        scanf(" %[^\n]", line);
 
         int count = sscanf(line, "%s = %s %s %s",
                            lhs[i], op1[i], op[i], op2[i]);
