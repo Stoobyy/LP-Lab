@@ -86,7 +86,7 @@ int main()
         /* WORD directive: print 6-digit hex value */
         if (strcmp(opcode, "WORD") == 0)
         {
-            sprintf(tmp, "%06X^", atoi(operand));
+            sprintf(tmp, "%06X^", atoi(operand)); //atoi important
             strcat(tbuf, tmp);
             text_bytes += 3;
         }
