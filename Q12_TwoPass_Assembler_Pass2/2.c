@@ -74,7 +74,7 @@ int main()
         /* BYTE directive: print hex of each character */
         if (strcmp(opcode, "BYTE") == 0)
         {
-            for (int i = 2; i < (int)strlen(operand) - 1; i++)
+            for (int i = 2; i < strlen(operand) - 1; i++)
             {
                 sprintf(tmp, "%02X", operand[i]);
                 strcat(tbuf, tmp);
