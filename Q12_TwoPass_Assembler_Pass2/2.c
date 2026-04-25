@@ -41,11 +41,10 @@ int main()
         fscanf(finter, "%x %d %s %s %s", &loc, &len, label, opcode, operand);
     }
 
-    /* Header record: H^ProgramName^StartAddress^ProgramLength */
-    printf("H^%s^%06X^00001C\n", progname, start);
-
-    /* Text record start */
-    printf("T^%06X^13^", start);
+    /* Buffer T record content so we can compute length before printing */
+    char tbuf[512] = "";
+    char tmp[64];
+    int  text_bytes = 0;
 
     /* Process each line until END */
     while (strcmp(opcode, "END") != 0)
@@ -65,8 +64,9 @@ int main()
                         break;
                     }
                 }
-                /* Print: machine_code + 4-digit address */
-                printf("%s%04X^", optab_code[i], address);
+                sprintf(tmp, "%s%04X^", optab_code[i], address);
+                strcat(tbuf, tmp);
+                text_bytes += 3;
                 break;
             }
         }
@@ -75,19 +75,36 @@ int main()
         if (strcmp(opcode, "BYTE") == 0)
         {
             for (int i = 2; i < (int)strlen(operand) - 1; i++)
-                printf("%02X", operand[i]);
-            printf("^");
+            {
+                sprintf(tmp, "%02X", operand[i]);
+                strcat(tbuf, tmp);
+                text_bytes++;
+            }
+            strcat(tbuf, "^");
         }
 
         /* WORD directive: print 6-digit hex value */
         if (strcmp(opcode, "WORD") == 0)
-            printf("%06X^", atoi(operand));
+        {
+            sprintf(tmp, "%06X^", atoi(operand));
+            strcat(tbuf, tmp);
+            text_bytes += 3;
+        }
 
         fscanf(finter, "%x %d %s %s %s", &loc, &len, label, opcode, operand);
     }
 
+    /* Now loc holds the END address, so program length = loc - start */
+    int prog_len = loc - start;
+
+    /* Header record */
+    printf("H^%s^%06X^%06X\n", progname, start, prog_len);
+
+    /* Text record with computed length */
+    printf("T^%06X^%02X^%s\n", start, text_bytes, tbuf);
+
     /* End record */
-    printf("\nE^%06X\n", start);
+    printf("E^%06X\n", start);
 
     fclose(finter);
     fclose(fsym);
